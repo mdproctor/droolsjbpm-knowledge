@@ -13,8 +13,13 @@
  * limitations under the License.
 */
 
-package org.kie.internal.runtime.beliefs;
+package org.kie.api.internal.assembler;
 
-public interface Mode {
-    public Object getBeliefSystem();
+import java.util.Map;
+
+import org.kie.api.io.ResourceType;
+import org.kie.api.internal.utils.KieService;
+
+public interface KieAssemblers extends KieService {
+    Map<ResourceType, KieAssemblerService> getAssemblers();
 }

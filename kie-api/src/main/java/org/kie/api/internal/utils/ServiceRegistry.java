@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Red Hat, Inc. and/or its affiliates.
+ * Copyright 2010 Red Hat, Inc. and/or its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,9 +14,20 @@
  * limitations under the License.
  */
 
-package org.kie.internal.runtime;
+package org.kie.api.internal.utils;
 
-import org.kie.api.runtime.KieRuntime;
+import java.util.concurrent.Callable;
 
-public interface KnowledgeRuntime extends KieRuntime {
+import org.kie.api.Service;
+
+/**
+ * Internal Interface
+ *
+ */
+public interface ServiceRegistry extends Service {
+    static ServiceRegistryImpl getInstance() {
+        return ServiceRegistryImpl.LazyHolder.INSTANCE;
+    }
+
+    <T> T get(Class<T> cls);
 }

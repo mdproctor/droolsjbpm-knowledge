@@ -13,18 +13,26 @@
  * limitations under the License.
 */
 
-package org.kie.internal.utils;
+package org.kie.api.internal.weaver;
 
-import org.kie.api.Service;
+import java.util.HashMap;
+import java.util.Map;
 
-public interface KieService extends Service {
-//    void preInit(T ctx);
-//    void init(T ctx);
-//    void postInit(T ctx);
+import org.kie.api.io.ResourceType;
 
-    Class getServiceInterface();
+public class KieWeaversImpl implements KieWeavers {
+    private Map<ResourceType, KieWeaverService> weavers;
 
-//    ResourceType getResourceType();
-//
-//    RequiredResourceType[] getRequiredResourceType();
+    public KieWeaversImpl() {
+        weavers = new HashMap<ResourceType, KieWeaverService>();
+    }
+
+    public Map<ResourceType, KieWeaverService> getWeavers() {
+        return this.weavers;
+    }
+
+    @Override
+    public Class getServiceInterface() {
+        return KieWeavers.class;
+    }
 }

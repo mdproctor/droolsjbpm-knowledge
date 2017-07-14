@@ -13,16 +13,27 @@
  * limitations under the License.
 */
 
-package org.kie.internal.runtime.beliefs;
+package org.kie.api.internal.assembler;
 
+import java.util.HashMap;
 import java.util.Map;
 
-import org.kie.internal.utils.KieService;
+import org.kie.api.io.ResourceType;
 
-public interface KieBeliefs extends KieService {
-    Map<String, KieBeliefService> getBeliefs();
+public class KieAssemblersImpl implements KieAssemblers {
+    private Map<ResourceType, KieAssemblerService> assemblers;
 
+    public KieAssemblersImpl() {
+        assemblers = new HashMap<ResourceType, KieAssemblerService>();
+    }
 
-    public KieBeliefService[] getServices();
+    @Override
+    public Map<ResourceType, KieAssemblerService> getAssemblers() {
+        return this.assemblers;
+    }
 
+    @Override
+    public Class getServiceInterface() {
+        return KieAssemblers.class;
+    }
 }
