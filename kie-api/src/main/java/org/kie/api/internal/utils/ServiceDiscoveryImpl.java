@@ -75,7 +75,7 @@ public class ServiceDiscoveryImpl {
 
     public synchronized  void addService(String serviceName, Object object) {
         if (!sealed) {
-            services.put(serviceName, object);
+            cachedServices.put(serviceName, object);
         } else {
             throw new IllegalStateException("Unable to add service '" + serviceName + "'. Services cannot be added once the ServiceDiscoverys is sealed");
         }
@@ -93,7 +93,7 @@ public class ServiceDiscoveryImpl {
                 if (confResources != null) {
                     discover(confResources, registry);
                 }
-                cachedServices = buildMap();
+                buildMap();
             }
             cachedServices = Collections.unmodifiableMap(cachedServices);
 
@@ -242,16 +242,14 @@ public class ServiceDiscoveryImpl {
         return cl;
     }
 
-    private Map<String, Object> buildMap() {
-        Map<String, Object> map = new HashMap<String, Object>();
+    private void buildMap() {
         for (String serviceName : services.keySet()) {
-            map.put(serviceName, services.get(serviceName));
+            cachedServices.put(serviceName, services.get(serviceName));
         }
 
-        map.put( KieAssemblers.class.getName(), assemblers );
-        map.put( KieWeavers.class.getName(), weavers );
-        map.put( KieRuntimes.class.getName(), runtimes);
-        map.put( KieBeliefs.class.getName(), beliefs );
-        return map;
+        cachedServices.put( KieAssemblers.class.getName(), assemblers );
+        cachedServices.put( KieWeavers.class.getName(), weavers );
+        cachedServices.put( KieRuntimes.class.getName(), runtimes);
+        cachedServices.put( KieBeliefs.class.getName(), beliefs );
     }
 }
