@@ -46,6 +46,8 @@ public class ServiceDiscoveryImpl {
 
     private final String path =  "META-INF/" + fileName;
 
+    private ClassLoader classloader;
+
     private ServiceDiscoveryImpl() {};
 
     private static class LazyHolder {
@@ -231,15 +233,14 @@ public class ServiceDiscoveryImpl {
         }
     }
 
-    private static ClassLoader getClassLoader() {
-        ClassLoader cl = Thread.currentThread().getContextClassLoader();
-        if (cl == null) {
-            cl = ClassLoader.getSystemClassLoader();
+    private ClassLoader getClassLoader() {
+        if (classloader== null) {
+            classloader = Thread.currentThread().getContextClassLoader();
+            if (classloader == null) {
+                classloader = ClassLoader.getSystemClassLoader();
+            }
         }
-//        if (cl == null) {
-//            cl = ClassLoaderUtil.class.getClassLoader();
-//        }
-        return cl;
+        return classloader;
     }
 
     private void buildMap() {
